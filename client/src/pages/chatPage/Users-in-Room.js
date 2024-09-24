@@ -8,12 +8,12 @@ const RoomAndUsers = ({ socket, username, room }) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        socket.on('chatroom_users', (data) => {
+        socket.on('user_list', (data) => {
             console.log(data);
             setRoomUsers(data);
         });
 
-        return () => socket.off('chatroom_users');
+        return () => socket.off('user_list');
     }, [socket]);
 
     const leaveRoom = () => {
@@ -30,16 +30,23 @@ const RoomAndUsers = ({ socket, username, room }) => {
             <div>
                 {roomUsers.length > 0 && <h5 className={styles.usersTitle}>Users:</h5>}
                 <ul className={styles.usersList}>
-                    {roomUsers.map((user) => (
-                        <li
-                            style={{
-                                fontWeight: `${user.username === username ? 'bold' : 'normal'}`,
-                            }}
-                            key={user.id}
-                        >
-                            {user.username}
-                        </li>
-                    ))}
+                    {
+                        (roomUsers) ? (
+                            roomUsers.map((user) => (
+                                <li
+                                    style={{
+                                        fontWeight: `${user.username === username ? 'bold' : 'normal'}`,
+                                    }}
+                                    key={user.id}
+                                >
+                                    {user.username}
+                                </li>
+                            ))
+                        )
+                            : (
+                                <li>No one here</li>
+                            )
+                    }
                 </ul>
             </div>
 

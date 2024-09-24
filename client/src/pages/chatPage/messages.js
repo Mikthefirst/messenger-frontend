@@ -6,7 +6,7 @@ const Messages = ({ socket }) => {
 
     // Runs whenever a socket event is recieved from the server
     useEffect(() => {
-        socket.on('receive_message', (data) => {
+        socket.on('send_user_message', (data) => {
             console.log(data);
             setMessagesReceived((state) => [
                 ...state,
@@ -19,7 +19,7 @@ const Messages = ({ socket }) => {
         });
 
         // Remove event listener on component unmount
-        return () => socket.off('receive_message');
+        return () => socket.off('send_user_message');
     }, [socket]);
 
     function formatDateFromTimestamp(timestamp) {

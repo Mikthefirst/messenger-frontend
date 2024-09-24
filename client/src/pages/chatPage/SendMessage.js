@@ -4,6 +4,12 @@ import React, { useState } from 'react';
 const SendMessage = ({ socket, username, room }) => {
     const [message, setMessage] = useState('');
 
+    const HandleKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            console.log('enter pressed')
+            sendMessage();
+        }
+    }
     const sendMessage = () => {
         if (message !== '') {
             const __createdtime__ = Date.now();
@@ -19,6 +25,7 @@ const SendMessage = ({ socket, username, room }) => {
                 className={styles.messageInput}
                 placeholder='Message...'
                 onChange={(e) => setMessage(e.target.value)}
+                onKeyPress={HandleKeyPress}
                 value={message}
             />
             <button className='btn btn-primary' onClick={sendMessage}>

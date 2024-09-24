@@ -14,7 +14,7 @@ function Home({ username, setUsername, room, setRoom, socket }) {
     return (
         <div className={styles.container}>
             <div className={styles.formContainer}>
-                <h1>{`<>DevRooms</>`}</h1>
+                <h1>{`<>CHAT Rooms</>`}</h1>
                 <input className={styles.input} placeholder='Username...' onChange={(e) => setUsername(e.target.value)} />
 
                 <select className={styles.input} onChange={(e) => { setRoom(e.target.value) }}>
