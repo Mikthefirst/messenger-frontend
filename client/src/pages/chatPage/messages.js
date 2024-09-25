@@ -7,15 +7,18 @@ const Messages = ({ socket }) => {
     // Runs whenever a socket event is recieved from the server
     useEffect(() => {
         socket.on('send_user_message', (data) => {
-            console.log(data);
-            setMessagesReceived((state) => [
-                ...state,
-                {
-                    message: data.message,
-                    username: data.username,
-                    __createdtime__: data.__createdtime__,
-                },
-            ]);
+            console.log('messages:', data);
+            setMessagesReceived((state) => {
+                if (Array.isArray(data)) {
+                    return [...state, ...data];
+                }
+                else if (typeof data === 'object') {
+                    return [...state, data];
+                }
+                else {
+                    return state;
+                }
+            });
         });
 
         // Remove event listener on component unmount
@@ -23,7 +26,23 @@ const Messages = ({ socket }) => {
     }, [socket]);
 
     function formatDateFromTimestamp(timestamp) {
-        const date = new Date(timestamp);
+        console.log('formatDateFromTimestamp:', typeof timestamp, '\t', timestamp);
+        let date;
+        try {
+            date = new Date().parse(timestamp);
+        }
+        catch (err) {
+            date = new Date(timestamp);
+            /*  let str_time_date = timestamp.split('T')[0].split('-');
+              let str_time = timestamp.split('T')[1].split(':');
+              console.log('timeDate:', str_time_date);
+              str_time[2].lenght = 2;
+              console.log('hours:', str_time);
+              date = new Date(str_time_date[0], str_time_date[1], str_time_date[2], str_time[0], str_time[1], str_time[2]);
+              //Date(year: number, monthIndex: number, date?: number, hours?: number, minutes?: number, seconds?: number, ms?: number)
+              //"2024-09-24T14:03:26.447Z"*/
+        }
+        //console.log(date);
         return date.toLocaleString();
     }
 
@@ -37,7 +56,7 @@ const Messages = ({ socket }) => {
                             {formatDateFromTimestamp(msg.__createdtime__)}
                         </span>
                     </div>
-                    <p className={styles.msgText}>{msg.message}</p>
+                    <p className={styles.msgText}>{msg.data}</p>
                     <br />
                 </div>
             ))}
