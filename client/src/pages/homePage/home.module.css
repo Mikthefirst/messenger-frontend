@@ -1,5 +1,7 @@
 /* client/src/pages/home/styles.module.css */
-
+.WhiteSpace {
+  white-space: nowrap;
+}
 .container {
   height: 100vh;
   width: 100%;
@@ -19,6 +21,7 @@
   align-items: center;
   gap: 28px;
 }
+
 .input {
   width: 100%;
   padding: 12px;

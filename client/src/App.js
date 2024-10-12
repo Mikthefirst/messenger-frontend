@@ -10,7 +10,7 @@ const socket = io.connect('http://localhost:3001');
 function App() {
   const [username, setUsername] = useState('');
   const [room, setRoom] = useState('');
-
+  const [password, setPassword] = useState('');
   return (
     <Router>
       <div className="App">
@@ -21,9 +21,11 @@ function App() {
               setUsername={setUsername}
               room={room}
               setRoom={setRoom}
+              password={password}
+              setPassword={setPassword}
               socket={socket}
             />} />
-          <Route path='/chat' element={<Chat socket={socket} username={username} room={room} />} />
+          <Route path='/chat' element={<Chat socket={socket} username={username} room={room} password={password} setPassword={setPassword} />} />
         </Routes>
       </div>
     </Router>
