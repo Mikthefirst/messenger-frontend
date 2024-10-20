@@ -84,3 +84,8 @@ img {
   cursor: pointer;
   margin: 0 0 0 0;
 }
+
+img {
+  height: 200px;
+  width: 200px;
+}

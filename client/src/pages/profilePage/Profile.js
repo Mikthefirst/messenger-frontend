@@ -1,17 +1,17 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './profile.module.css';
-import AvatarIcon from './../../assets/avatarIcon.png';
+//import AvatarIcon from './../../assets/avatarIcon.png';
 
 
 function Profile() {
-    let imagePath = AvatarIcon;
+    const [imagePath, setImagePath] = useState('');
     let username, password, token;
     useEffect(() => {
         if (!token) {
             token = document.cookie.split(';')[3].split('=')[1];
         }
         if (!username) {
-            username = document.cookie.split(';')[1].split('=')[1];
+            username = document.cookie.split(';')[0].split('=')[1];
         }
         if (!password) {
             password = document.cookie.split(';')[2].split('=')[1];
@@ -22,12 +22,13 @@ function Profile() {
                     await fetch(`http://localhost:3002/app/getImage?username=${username}&password=${password}`)
                 if (res.ok) {
                     const blobik = await res.blob();
-                    imagePath = URL.createObjectURL(blobik);
+                    console.log(blobik);
+                    setImagePath(URL.createObjectURL(blobik));
+                    console.log(imagePath);
                 }
                 else {
                     console.error('Failed to fetch image:', res.statusText);
                 }
-                console.log(res);
             }
             fetchImage();
         };
@@ -41,8 +42,8 @@ function Profile() {
     return (
         <div className={styles.container}>
             <div className={styles.formContainer}>
-                {!imagePath === AvatarIcon && <img src={imagePath} />}
-                {imagePath === AvatarIcon &&
+                {imagePath && <ProfileImage imagePath={imagePath} />}
+                {!imagePath &&
                     <AddImage />
                 }
             </div>
@@ -71,5 +72,30 @@ function AddImage() {
     );
 }
 
+function ProfileImage({ imagePath }) {
+    return (
+        <form className={styles.custom__form} style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
+            <h1>Your current image:</h1>
+            <img src={imagePath} alt="Profile Image" />
+
+
+            <h3>If you want to add new use this:</h3>
+
+            <div className={styles.custom__image_container} style={{ width: '60px', height: '50px' }}>
+                <label style={{ width: '60px', height: '50px' }} id="add-img-label" htmlFor="add-single-img" >+</label>
+                <input type="file" id="add-single-img" accept="image/jpeg" />
+            </div>
+            <input
+                type="file"
+                id="image-input"
+                name="photos"
+                accept="image/jpeg"
+                multiple
+            />
+            <br />
+            <button type="submit" className={styles.custom__form}>Submit</button>
+        </form>
+    );
+}
 
 export default Profile;
