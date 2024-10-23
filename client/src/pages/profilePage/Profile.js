@@ -5,6 +5,8 @@ import setStyles from './setimage.module.css'
 
 //import AvatarIcon from './../../assets/avatarIcon.png';
 let username, password, token;
+const server = process.env.REACT_APP_SERVER;
+
 
 function Profile() {
     const [imagePath, setImagePath] = useState('');
@@ -22,7 +24,7 @@ function Profile() {
         if (password && username) {
             async function fetchImage() {
                 const res =
-                    await fetch(`http://localhost:3002/app/getImage?username=${username}&password=${password}`)
+                    await fetch(`${server}/getImage?username=${username}&password=${password}`)
                 if (res.ok) {
                     const blobik = await res.blob();
                     console.log(blobik);
@@ -35,13 +37,9 @@ function Profile() {
             }
             fetchImage();
         };
-        /*
-         const response = await fetch('http://localhost:3002/app/getImage/avatarIcon.png');
-            const imageBlob = await response.blob();
-            const imageObjectURL = URL.createObjectURL(imageBlob);
-            setImageSrc(imageObjectURL);
-        */
     }, [username]);
+
+
     return (
         <div className={styles.container}>
             <div className={styles.formContainer}>
@@ -89,7 +87,7 @@ function ProfileImage({ imagePath }) {
             const formData = new FormData();
             formData.append('avatar', selectedFile);
 
-            const res = await fetch(`http://localhost:3002/app/setImage?username=${username}&password=${password}`, {
+            const res = await fetch(`${server}/setImage?username=${username}&password=${password}`, {
                 method: 'POST',
                 body: formData
             });
