@@ -11,7 +11,7 @@ const socket = io.connect(process.env.REACT_APP_IO_SERVER);
 
 function App() {
   const [username, setUsername] = useState('');
-  const [room, setRoom] = useState('');
+  const [nickname, setNickname] = useState('')
   const [password, setPassword] = useState('');
   return (
     <Router>
@@ -21,8 +21,8 @@ function App() {
             <Home
               username={username}
               setUsername={setUsername}
-              room={room}
-              setRoom={setRoom}
+              nickname={nickname}
+              setNickname={setNickname}
               password={password}
               setPassword={setPassword}
               socket={socket}
@@ -31,9 +31,7 @@ function App() {
             <Chat
               socket={socket}
               username={username}
-              room={room}
-              password={password}
-              setPassword={setPassword}
+              nickname={nickname}
             />} />
           <Route path='/profile' element={<Profile />} />
           <Route path='/main' element={<MainPage />} />

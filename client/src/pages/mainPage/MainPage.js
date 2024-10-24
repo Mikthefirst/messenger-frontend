@@ -59,9 +59,23 @@ function MainPage() {
                 </div>
             </div>
             <div className={`menu ${menuVisible ? 'show' : ''}`}>
-                <p>Menu Item 1</p>
-                <p>Menu Item 2</p>
-                <p>Menu Item 3</p>
+                <div className="menu-avatar">
+                    <img src="https://via.placeholder.com/60" alt="User Avatar" />
+                    <div className="nickname">User Name</div>
+                </div>
+                <div className="menu-item">
+                    <img src="https://via.placeholder.com/30" alt="Icon 1" />
+                    <p>Menu Item 1</p>
+                </div>
+                <div className="menu-item">
+                    <img src="https://via.placeholder.com/30" alt="Icon 2" />
+                    <p>Menu Item 2</p>
+                </div>
+                <div className="menu-item">
+                    <img src="https://via.placeholder.com/30" alt="Icon 3" />
+                    <p>Menu Item 3</p>
+                </div>
+
             </div>
             <div className="main-content">
                 <div className="search-bar">

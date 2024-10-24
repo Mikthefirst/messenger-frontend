@@ -145,11 +145,12 @@ p {
   position: fixed;
   top: 0;
   left: 0;
-  width: 200px;
+  min-width: 250px;
+  width: 25%;
   height: 100%;
   background-color: rgb(63, 73, 204);
-  color: white;
-  padding: 20px;
+  color: aliceblue;
+  padding: 10px;
   display: none;
   flex-direction: column;
   align-items: start;
@@ -161,6 +162,45 @@ p {
   display: flex;
 }
 
+.menu-avatar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+  font-size: 0.7em;
+}
+
+.menu-avatar img {
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+}
+
+.menu-avatar .nickname {
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.menu-item {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  background-color: rgb(44, 53, 169);
+  color: black;
+  padding: 10px;
+  margin-bottom: 10px;
+  font-size: 0.9em;
+}
+
+.menu-item img {
+  width: 35px;
+  height: 35px;
+  margin-right: 20%;
+}
+
+.menu-item p {
+  margin: 0;
+}
 .menu_button {
   cursor: context-menu;
 }
