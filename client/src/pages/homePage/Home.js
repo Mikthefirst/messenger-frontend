@@ -17,12 +17,13 @@ function Home({ username, setUsername, nickname, setNickname, password, setPassw
                     },
                     'body': JSON.stringify({
                         'username': username,
-                        'password': password
+                        'password': password,
+                        'nickname': nickname
                     }),
                     credentials: 'include'
                 })
                 console.log(responce.status);
-                //navigate('/chat', { replace: true })
+                navigate('/main', { replace: true })
             }
             catch (err) {
                 console.log(err)
@@ -40,7 +41,7 @@ function Home({ username, setUsername, nickname, setNickname, password, setPassw
                     <input className={`${styles.input} ${styles.inputNick}`} placeholder='@nickname:' onChange={(e) => setNickname(e.target.value)} />
                     <div className={styles.tooltipContainer}>
                         <img src={AdviceLamp} alt="Advice Lamp" className={styles.tooltipIcon} />
-                        <span className={styles.tooltipText}>Use only English letters, underscores, and start with @</span>
+                        <span className={styles.tooltipText}>Use only English letters, digits, underscores, and start with @</span>
                     </div>
                 </div>
                 <input type="password" className={styles.input} placeholder='Password...' onChange={(e) => setPassword(e.target.value)} />

@@ -1,8 +1,46 @@
 import React, { useEffect, useState } from "react";
 import "./mainPage.css";
+import io from 'socket.io-client';
+//import ChatForm from './../chatPage/messages';
+const server = process.env.REACT_APP_SERVER;
 
 
+const socket = io.connect(process.env.REACT_APP_IO_SERVER);
+let nickname, username, token;
 function MainPage() {
+
+    const [rooms, setRooms] = useState([]);
+
+    useEffect(() => {
+        nickname = document.cookie.split(';')[0].split('=')[1];
+        username = document.cookie.split(';')[1].split('=')[1];
+        token = document.cookie.split(';')[2].split('=')[1];
+
+        console.log(`Cookie data: nickname: ${nickname}, username: ${username}`);
+        /*if (nickname && username && token)
+            socket.emit('join_room', { nickname, username, token });*/
+        async function fetchRooms() {
+            const RoomsResponce = await fetch(`${server}/rooms/GetRoomsNickname`, {
+                credentials: 'include',
+            });
+            if (RoomsResponce.ok) {
+                const roomsString = await RoomsResponce.text();
+                setRooms(JSON.parse(roomsString));
+                console.log('Rooms:\n', rooms);
+                console.log(await RoomsResponce);
+            }
+            else {
+                console.error('Failed to fetch rooms:', RoomsResponce.statusText);
+            }
+        }
+        fetchRooms();
+    }, [nickname, username, token, socket])
+
+
+
+
+
+
 
 
     //
@@ -82,94 +120,43 @@ function MainPage() {
                     <input type="text" placeholder="Search..." />
                 </div>
                 <div className="prechat-list">
-                    <div className="prechat-item">
-                        <img src="https://via.placeholder.com/40" alt="User 1" />
-                        <div>
-                            <div className="top-message-cont">
-                                <p className="name">User 1</p>
-                                <p className="time">12.01.04</p>
-                            </div>
-                            <p className="message">Hi there!</p>
-                        </div>
-                    </div>
-                    <div className="prechat-item">
-                        <img src="https://via.placeholder.com/40" alt="User 2" />
-                        <div>
-                            <div className="top-message-cont">
-                                <p className="name">User 2</p>
-                                <p className="time">12.01.04</p>
-                            </div>
-                            <p className="message">Hi there!</p>
-                        </div>
-                    </div>
-                    <div className="prechat-item">
-                        <img src="https://via.placeholder.com/40" alt="User 2" />
-                        <div>
-                            <div className="top-message-cont">
-                                <p className="name">User 3</p>
-                                <p className="time">12.01.04</p>
-                            </div>
-                            <p className="message">Hi there!</p>
-                        </div>
-                    </div>
-                    <div className="prechat-item">
-                        <img src="https://via.placeholder.com/40" alt="User 2" />
-                        <div>
-                            <div className="top-message-cont">
-                                <p className="name">User 4</p>
-                                <p className="time">12.01.04</p>
-                            </div>
-                            <p className="message">Hi there!</p>
-                        </div>
-                    </div>
-                    <div className="prechat-item">
-                        <img src="https://via.placeholder.com/40" alt="User 2" />
-                        <div>
-                            <div className="top-message-cont">
-                                <p className="name">User 6</p>
-                                <p className="time">12.01.04</p>
-                            </div>
-                            <p className="message">Hi there!</p>
-                        </div>
-                    </div>
-                    <div className="prechat-item">
-                        <img src="https://via.placeholder.com/40" alt="User 2" />
-                        <div>
-                            <div className="top-message-cont">
-                                <p className="name">User 7</p>
-                                <p className="time">12.01.04</p>
-                            </div>
-                            <p className="message">Hi there!</p>
-                        </div>
-                    </div>
-                    <div className="prechat-item">
-                        <img src="https://via.placeholder.com/40" alt="User 2" />
-                        <div>
-                            <div className="top-message-cont">
-                                <p className="name">User 8</p>
-                                <p className="time">12.01.04</p>
-                            </div>
-                            <p className="message">Hi there!</p>
-                        </div>
-                    </div>
-                    <div className="prechat-item">
-                        <img src="https://via.placeholder.com/40" alt="User 2" />
-                        <div>
-                            <div className="top-message-cont">
-                                <p className="name">User 2</p>
-                                <p className="time">12.01.04</p>
-                            </div>
-                            <p className="message">Hi there!</p>
-                        </div>
-                    </div>
+                    {rooms && rooms.map((room) =>
+                        <PrechatItem key={room.room_id} room={room} />
+                    )}
                 </div>
 
             </div>
             <div className="chat-content">
                 <p>Choose someone to chat...</p>
+
             </div>
         </div>
     );
+}
+
+function formatDateFromTimestamp(timestamp) {
+    console.log('formatDateFromTimestamp:', typeof timestamp, '\t', timestamp);
+    let date;
+    try {
+        date = new Date().parse(timestamp);
+    }
+    catch (err) {
+        date = new Date(timestamp);
+    }
+    return date.toLocaleString();
+}
+
+function PrechatItem({ room }) {
+    return (<div className="prechat-item">
+        <img src={room.image_id ? `path/to/images/${room.image_id}` : "https://via.placeholder.com/40"} alt={room.room_name} />
+        <div>
+            <div className="top-message-cont">
+                <p className="name">{room.title}</p>
+                <p className="time">{formatDateFromTimestamp(room.last_time)}</p>
+            </div>
+            <p className="message">{room.last_message_data}</p>
+        </div>
+    </div>);
 }
 
 export default MainPage;
