@@ -3,28 +3,29 @@ import styles from './chat.module.css';
 import Messages from './messages';
 import SendMessage from './SendMessage';
 import RoomAndUsers from './Users-in-Room';
-function Chat({ username, room, password, socket }) {
-    console.log(`username: ${username}, room: ${room}, password ${password}`);
+
+let username, room, nickname, token;
+function Chat({ room, username, nickname, socket }) {
+    console.log(`username: ${username}, room: ${room}, nickname ${nickname}`);
     useEffect(() => {
         if (!username) {
-            username = document.cookie.split(';')[0].split('=')[1];
+            username = document.cookie.split(';')[1].split('=')[1];
         }
-        if (!room) {
-            room = document.cookie.split(';')[1].split('=')[1];
+        if (!nickname) {
+            nickname = document.cookie.split(';')[0].split('=')[1];
         }
-        if (!password) {
-            password = document.cookie.split(';')[2].split('=')[1];
+
+        if (!token) {
+            token = document.cookie.split(';')[2].split('=')[1];
         }
-        const token = document.cookie.split(';')[3].split('=')[1];
 
-        console.log(`Cookie data: username: ${username}, room: ${room}, password ${password}`);
+        console.log(`Cookie data: room: ${room}, nickname ${nickname}`);
+        if (room, nickname) { socket.emit('join_room', { username, nickname, room, token }); }
 
-        socket.emit('join_room', { username, room, password, token });
-
-    }, [username, password, room, socket])
+    }, [nickname, room, socket])
     return (
         <div className={styles.chatContainer}>
-            <RoomAndUsers socket={socket} username={username} room={room} />
+            <h1 className={styles.roomName}>Room: {room}</h1>
             <div>
                 <Messages socket={socket} />
                 <SendMessage socket={socket} username={username} room={room} />

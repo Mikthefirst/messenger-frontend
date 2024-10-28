@@ -1,15 +1,29 @@
 import React, { useEffect, useState } from "react";
 import "./mainPage.css";
 import io from 'socket.io-client';
-//import ChatForm from './../chatPage/messages';
+import ChatForm from './../chatPage/Chat';
+//import SendMessage from './SendMessage';
+import PrechatItem from "./PreChatItem";
+
 const server = process.env.REACT_APP_SERVER;
 
 
 const socket = io.connect(process.env.REACT_APP_IO_SERVER);
 let nickname, username, token;
+
 function MainPage() {
 
     const [rooms, setRooms] = useState([]);
+    const [chatPicked, setChatPicked] = useState(false);
+    const [pickedRoom, setPickedRoom] = useState(null);
+
+    function CallChat(room) {
+        setPickedRoom(room);
+        console.log('CallChat:', pickedRoom);
+        console.log('ChatPicked', chatPicked);
+        socket.emit('join_room', { nickname, username, token, room });
+        setChatPicked(true);
+    }
 
     useEffect(() => {
         nickname = document.cookie.split(';')[0].split('=')[1];
@@ -121,42 +135,24 @@ function MainPage() {
                 </div>
                 <div className="prechat-list">
                     {rooms && rooms.map((room) =>
-                        <PrechatItem key={room.room_id} room={room} />
+                        <PrechatItem key={room.room_id} room={room} onClick={() => { console.log('click at preChatItem'); CallChat(room.room_id) }} />
                     )}
                 </div>
 
             </div>
             <div className="chat-content">
-                <p>Choose someone to chat...</p>
-
+                {!chatPicked && <p>Choose someone to chat...</p>}
+                {chatPicked && pickedRoom && (
+                    <div>
+                        <ChatForm socket={socket} nickname={nickname} username={username} room={pickedRoom} />
+                    </div>
+                )}
             </div>
         </div>
     );
 }
 
-function formatDateFromTimestamp(timestamp) {
-    console.log('formatDateFromTimestamp:', typeof timestamp, '\t', timestamp);
-    let date;
-    try {
-        date = new Date().parse(timestamp);
-    }
-    catch (err) {
-        date = new Date(timestamp);
-    }
-    return date.toLocaleString();
-}
 
-function PrechatItem({ room }) {
-    return (<div className="prechat-item">
-        <img src={room.image_id ? `path/to/images/${room.image_id}` : "https://via.placeholder.com/40"} alt={room.room_name} />
-        <div>
-            <div className="top-message-cont">
-                <p className="name">{room.title}</p>
-                <p className="time">{formatDateFromTimestamp(room.last_time)}</p>
-            </div>
-            <p className="message">{room.last_message_data}</p>
-        </div>
-    </div>);
-}
+
 
 export default MainPage;

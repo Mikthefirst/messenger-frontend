@@ -30,7 +30,7 @@ p {
 }
 
 .group-icon img {
-  border-radius: 50%;
+  border-radius: 100%;
   width: 50px;
   height: 50px;
 }
@@ -126,18 +126,6 @@ p {
 
 .chat-content {
   width: 61%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
-.chat-content p {
-  background-color: rgb(63, 73, 204); /* Use the same background color */
-  color: white; /* Adjust text color for better contrast */
-  padding: 10px;
-  border-radius: 10px;
-  margin: 0; /* Adjust margin as needed */
   text-align: center;
 }
 
