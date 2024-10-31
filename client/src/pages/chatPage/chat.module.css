@@ -2,9 +2,9 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: start;
-  width: 100%;
+  align-items: center;
   height: 100%;
+  width: 100%;
 }
 
 /* Room and users component */
@@ -63,7 +63,8 @@
 
 /* Message input and button */
 .sendMessageContainer {
-  padding: 16px 20px 20px 16px;
+  min-width: 500px;
+  /*padding: 16px 20px 20px 16px;*/
 }
 .messageInput {
   min-height: 55px;

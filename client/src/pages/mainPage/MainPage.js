@@ -141,9 +141,10 @@ function MainPage() {
 
             </div>
             <div className="chat-content">
-                {!chatPicked && <p>Choose someone to chat...</p>}
+                {!chatPicked && <div className="alignClass"><p id="emptyLink">Choose someone to chat...</p></div>}
                 {chatPicked && pickedRoom && (
-                    <div>
+                    <div style={{ height: '100%', display: 'flex', flexDirection: 'column', textAlign: 'center' }}>
+                        <h1 className="roomName">Room: {pickedRoom}</h1>
                         <ChatForm socket={socket} nickname={nickname} username={username} room={pickedRoom} />
                     </div>
                 )}

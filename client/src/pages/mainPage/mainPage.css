@@ -126,7 +126,20 @@ p {
 
 .chat-content {
   width: 61%;
+}
+.alignClass {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#emptyLink {
   text-align: center;
+  border-radius: 20px;
+  min-width: 300px;
+  width: 20%;
+  padding: 20px;
+  background-color: rgb(63, 73, 204);
 }
 
 .menu {
@@ -191,4 +204,10 @@ p {
 }
 .menu_button {
   cursor: context-menu;
+}
+
+.roomName {
+  margin: 0px;
+  margin-bottom: 10px;
+  padding: 0px;
 }
