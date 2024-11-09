@@ -26,8 +26,9 @@ function Chat({ room, username, nickname, socket }) {
     return (
         <div className={styles.chatContainer}>
             <div style={{ textAlign: 'left' }}>
+                <RoomAndUsers socket={socket} nickname={nickname} room={room} token={token} />
                 <Messages socket={socket} />
-                <SendMessage socket={socket} username={username} room={room} />
+                <SendMessage socket={socket} nickname={nickname} room={room} token={token} />
             </div>
         </div>);
 }

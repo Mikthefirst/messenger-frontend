@@ -2,12 +2,17 @@ import styles from './chat.module.css';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const RoomAndUsers = ({ socket, username, room }) => {
+const RoomAndUsers = ({ socket, nickname, room, token }) => {
     const [roomUsers, setRoomUsers] = useState([]);
 
     const navigate = useNavigate();
 
     useEffect(() => {
+        if (!token) {
+            token = document.cookie.split(';')[2].split('=')[1];
+        }
+
+
         socket.on('user_list', (data) => {
             //  console.log(data);
             setRoomUsers(data);
@@ -18,7 +23,7 @@ const RoomAndUsers = ({ socket, username, room }) => {
 
     const leaveRoom = () => {
         const __createdtime__ = Date.now();
-        socket.emit('leave_room', { username, room, __createdtime__ });
+        socket.emit('leave_room', { nickname, room, token, __createdtime__ });
         // Redirect to home page
         navigate('/', { replace: true });
     };
@@ -35,11 +40,11 @@ const RoomAndUsers = ({ socket, username, room }) => {
                             roomUsers.map((user) => (
                                 <li
                                     style={{
-                                        fontWeight: `${user.username === username ? 'bold' : 'normal'}`,
+                                        fontWeight: `${user.nickname === nickname ? 'bold' : 'normal'}`,
                                     }}
                                     key={user.id}
                                 >
-                                    {user.username}
+                                    {user.nickname}
                                 </li>
                             ))
                         )

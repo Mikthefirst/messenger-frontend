@@ -1,7 +1,7 @@
 import styles from './chat.module.css';
 import React, { useState } from 'react';
 
-const SendMessage = ({ socket, username, room }) => {
+const SendMessage = ({ socket, nickname, room, token }) => {
     const [message, setMessage] = useState('');
 
     const HandleKeyPress = (e) => {
@@ -11,10 +11,13 @@ const SendMessage = ({ socket, username, room }) => {
         }
     }
     const sendMessage = () => {
+        if (!token) {
+            token = document.cookie.split(';')[2].split('=')[1];
+        }
         if (message !== '') {
             const __createdtime__ = Date.now();
             // Send message to server. We can't specify who we send the message to from the frontend. We can only send to server. Server can then send message to rest of users in room
-            socket.emit('send_message', { username, room, message, __createdtime__ });
+            socket.emit('send_message', { nickname, room, message, token, __createdtime__ });
             setMessage('');
         }
     };
