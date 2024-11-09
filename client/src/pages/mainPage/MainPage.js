@@ -138,15 +138,12 @@ function MainPage() {
                         <PrechatItem key={room.room_id} room={room} onClick={() => { console.log('click at preChatItem'); CallChat(room.room_id) }} />
                     )}
                 </div>
-
+                <div className="vertical-line"></div>
             </div>
             <div className="chat-content">
                 {!chatPicked && <div className="alignClass"><p id="emptyLink">Choose someone to chat...</p></div>}
                 {chatPicked && pickedRoom && (
-                    <div style={{ height: '100%', display: 'flex', flexDirection: 'column', textAlign: 'center' }}>
-                        <h1 className="roomName">Room: {pickedRoom}</h1>
-                        <ChatForm socket={socket} nickname={nickname} username={username} room={pickedRoom} />
-                    </div>
+                    <ChatForm socket={socket} nickname={nickname} username={username} room={pickedRoom} />
                 )}
             </div>
         </div>

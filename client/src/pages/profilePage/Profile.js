@@ -3,8 +3,8 @@ import styles from './profile.module.css';
 import addStyles from './addimage.module.css'
 import setStyles from './setimage.module.css'
 
-//import AvatarIcon from './../../assets/avatarIcon.png';
-let username, password, token;
+import AvatarIcon from './../../assets/avatarIcon.png';
+let username, nickname, token;
 const server = process.env.REACT_APP_SERVER;
 
 
@@ -13,18 +13,18 @@ function Profile() {
 
     useEffect(() => {
         if (!token) {
-            token = document.cookie.split(';')[3].split('=')[1];
+            token = document.cookie.split(';')[2].split('=')[1];
+        }
+        if (!nickname) {
+            nickname = document.cookie.split(';')[0].split('=')[1];
         }
         if (!username) {
-            username = document.cookie.split(';')[0].split('=')[1];
+            username = document.cookie.split(';')[2].split('=')[1];
         }
-        if (!password) {
-            password = document.cookie.split(';')[2].split('=')[1];
-        }
-        if (password && username) {
+        if (nickname && token) {
             async function fetchImage() {
                 const res =
-                    await fetch(`${server}/getImage?username=${username}&password=${password}`)
+                    await fetch(`${server}/getImage?username=${username}&nickname=${nickname}`)
                 if (res.ok) {
                     const blobik = await res.blob();
                     console.log(blobik);
@@ -33,6 +33,7 @@ function Profile() {
                 }
                 else {
                     console.error('Failed to fetch image:', res.statusText);
+                    imagePath = AvatarIcon;
                 }
             }
             fetchImage();
@@ -83,11 +84,11 @@ function ProfileImage({ imagePath }) {
     const SetImage = async (event) => {
         event.preventDefault();
 
-        if (username && password && selectedFile) {
+        if (username && nickname && selectedFile) {
             const formData = new FormData();
             formData.append('avatar', selectedFile);
 
-            const res = await fetch(`${server}/setImage?username=${username}&password=${password}`, {
+            const res = await fetch(`${server}/setImage?username=${username}&nickname=${nickname}`, {
                 method: 'POST',
                 body: formData
             });
@@ -98,7 +99,7 @@ function ProfileImage({ imagePath }) {
                 alert(`Failed to add the image.`);
             }
         } else {
-            alert('No file selected or missing username/password.');
+            alert('No file selected or missing username/nickname.');
         }
     };
 

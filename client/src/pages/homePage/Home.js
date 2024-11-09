@@ -35,7 +35,7 @@ function Home({ username, setUsername, nickname, setNickname, password, setPassw
     return (
         <div className={styles.container}>
             <div className={styles.formContainer}>
-                <h1 className={styles.WhiteSpace}>{`<>CHAT Rooms</>`}<br /></h1>
+                <h1 className={styles.WhiteSpace}>{`VesTochka`}<br /></h1>
                 <input className={styles.input} placeholder='Username...' onChange={(e) => setUsername(e.target.value)} />
                 <div className={styles.inputContainer}>
                     <input className={`${styles.input} ${styles.inputNick}`} placeholder='@nickname:' onChange={(e) => setNickname(e.target.value)} />

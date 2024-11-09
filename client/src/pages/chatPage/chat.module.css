@@ -41,17 +41,32 @@
 }
 .roomName {
   margin: 0px;
-  margin-bottom: 10px;
   padding: 0px;
 }
+
 .message {
-  background: rgb(0, 24, 111);
-  border-radius: 10px;
+  background: rgb(63, 73, 204);
+  border-radius: 0px;
   margin-bottom: 2px;
   max-width: 700px;
   min-height: 20px;
   font-size: 0.9em;
+  position: relative; /* Required for the pseudo-element */
 }
+/*
+.message::after {
+  content: "";
+  position: absolute;
+  top: 86%; /* Center the triangle vertically 
+  transform: translateY(-50%);
+  right: -10px; /* Position the triangle on the right side 
+  width: 0;
+  height: 0;
+  border-top: 11px solid transparent;
+  border-bottom: 11px solid transparent;
+  border-left: 11px solid rgb(63, 73, 204); /* Same color as the message background 
+}*/
+
 .msgMeta {
   color: rgb(153, 217, 234);
   font-size: 0.75rem;

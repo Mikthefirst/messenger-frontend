@@ -26,7 +26,6 @@ const Messages = ({ socket }) => {
     }, [socket]);
 
     function formatDateFromTimestamp(timestamp) {
-        console.log('formatDateFromTimestamp:', typeof timestamp, '\t', timestamp);
         let date;
         try {
             date = new Date().parse(timestamp);
